@@ -1,0 +1,54 @@
+print("Игра Крестики-Нолики")
+
+board = list(range(1,10))
+
+def image_board(board):
+    print("-" * 13)
+    for i in range(3):
+        print("|", board[0+i*3], "|", board[1+i*3], "|", board[2+i*3], "|")
+        print("-" * 13)
+
+def get_input(player_item):
+    valid = False
+    while not valid:
+        player_ans = input("Введите номер клетки "+ player_item )
+        try:
+            player_ans = int(player_ans)
+        except:
+            print ("Неправильный ввод")
+            continue
+        if 1 <= player_ans <= 9:
+            if (str(board[player_ans -1]) not in "X0"):
+                board[player_ans - 1] = player_item
+                valid = True
+            else:
+                print ("Эта клетка занята")
+        else:
+             print ("Неправильный ввод опять")
+
+def win_ner(board):
+    win_row = (0,1,2),(3,4,5),(6,7,8),(0,3,6),(1,4,7),(2,5,8),(0,4,8),(2,4,6)
+    for each in win_row:
+        if board[each[0]] == board[each[1]] == board[each[2]]:
+            return board[each[0]]
+    return False
+def main(board):
+    counter = 0
+    win = False
+    while not win:
+        image_board(board)
+        if counter % 2 ==0:
+            get_input("X")
+        else:
+            get_input("0")
+        counter += 1
+        if counter > 4 :
+            tmp = win_ner(board)
+            if tmp:
+                print (tmp,"Выиграл!")
+                break
+            if counter == 9:
+                print ("Ничья!")
+                break
+    image_board(board)
+main(board)
